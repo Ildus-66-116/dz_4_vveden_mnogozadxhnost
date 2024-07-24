@@ -1,6 +1,5 @@
 import aiohttp
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlparse
 import os
 import sys

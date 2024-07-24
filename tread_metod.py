@@ -15,11 +15,9 @@ urls = ['https://klike.net/uploads/posts/2023-02/1675842942_3-315.jpg',
         ]
 
 start_time = time.time()
-full_time = 0
 
 
 def download(url):
-    global full_time
     response = requests.get(url)
     filename = os.path.basename(urlparse(url).path)
     filename = 'thread/' + filename
@@ -27,7 +25,6 @@ def download(url):
         for chunk in response.iter_content(chunk_size=8192):
             f.write(chunk)
     print(f"Скачано изображение: {filename} in {time.time() - start_time:.2f} seconds")
-    full_time += time.time() - start_time
 
 
 if __name__ == "__main__":
@@ -39,6 +36,7 @@ if __name__ == "__main__":
         raise ValueError("Пожалуйста, укажите хотя бы один URL для скачивания изображений.")
 
     threads = []
+    global_start_time = time.time()
 
     for url in urls:
         thread = threading.Thread(target=download, args=[url])
@@ -48,4 +46,4 @@ if __name__ == "__main__":
     for thread in threads:
         thread.join()
 
-    print(f"\nОбщее время выполнения: {full_time:.2f} секунд")
+    print(f"\nОбщее время выполнения: {time.time() - global_start_time:.2f} секунд")
